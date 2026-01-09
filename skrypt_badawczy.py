@@ -320,6 +320,11 @@ def run_experiment(dataset_name, df_loader):
                 if model_name == "Drzewo Decyzyjne":
                     fold_depth.append(clf.get_depth())
                     fold_nodes.append(clf.tree_.node_count)
+                elif model_name == "Las Losowy":
+                    depths = [est.get_depth() for est in clf.estimators_]
+                    nodes = [est.tree_.node_count for est in clf.estimators_]
+                    fold_depth.append(float(np.mean(depths)))
+                    fold_nodes.append(float(np.mean(nodes)))
 
             acc_mean = float(np.mean(fold_acc))
             acc_std = float(np.std(fold_acc, ddof=1)) if len(fold_acc) > 1 else 0.0
